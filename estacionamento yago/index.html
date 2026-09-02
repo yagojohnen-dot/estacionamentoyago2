@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estacionamento Premium · Yago</title>
+    <!-- Fonte Google Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* RESET & BASE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at 10% 20%, #2e1065 0%, #0d0714 100%);
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: #f8fafc;
+        }
+
+        .container {
+            max-width: 1240px;
+            width: 100%;
+            background: rgba(46, 16, 101, 0.35);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 36px;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7),
+                inset 0 1px 1px rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* HEADER */
+        .header-section {
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        h2::before {
+            content: "🚗";
+            font-size: 2rem;
+            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.4));
+        }
+
+        .subtitulo {
+            color: #c084fc;
+            font-size: 0.95rem;
+            font-weight: 400;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subtitulo-bar {
+            width: 4px;
+            height: 16px;
+            background: #fbbf24;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 880px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* CARDS */
+        .card {
+            background: rgba(15, 7, 20, 0.55);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            transition: all 0.25s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        .card h3 {
+            color: #f8fafc;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card h3 span {
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid rgba(251, 191, 36, 0.25);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #fbbf24;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* INPUTS */
+        label {
+            color: #e9d5ff;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: block;
+            margin: 12px 0 6px 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            color: #f8fafc;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: #a855f7;
+            opacity: 0.6;
+            font-weight: 400;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #fbbf24;
+            background: rgba(255, 255, 255, 0.09);
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23fbbf24' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            padding-right: 44px;
+            cursor: pointer;
+        }
+
+        select option {
+            background: #1e0a38;
+            color: #f8fafc;
+        }
+
+        /* BUTTONS */
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 8px;
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+            color: #0f0714;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.25);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-entrada {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-entrada:hover {
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-saida {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25);
+        }
+
+        .btn-saida:hover {
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.35);
+        }
+
+        .tabela-precos {
+            margin-top: 18px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px dashed rgba(255, 255, 255, 0.12);
+            color: #d8b4fe;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .tabela-precos strong {
+            color: #fbbf24;
+        }
+
+        /* TABELA RELATÓRIO */
+        .card-table {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            color: #f3e8ff;
+            min-width: 600px;
+        }
+
+        thead {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: #fbbf24;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* BADGES NA TABELA */
+        .badge-vaga {
+            background: rgba(251, 191, 36, 0.12);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.25);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .valor-ativo {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        .valor-pago {
+            color: #34d399;
+            font-weight: 600;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(251, 191, 36, 0.3);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(251, 191, 36, 0.5);
+        }
+
+        /* RESPONSIVO */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                border-radius: 24px;
+            }
+
+            h2 {
+                font-size: 1.7rem;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            padding: 14px 20px;
+            color: #fff;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid #34d399;
+        }
+
+        .toast.error {
+            border-left: 4px solid #f87171;
+        }
+
+        .toast.info {
+            border-left: 4px solid #fbbf24;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header-section">
+            <h2>Estacionamento do Yago</h2>
+            <div class="subtitulo">
+                <span class="subtitulo-bar"></span>
+                <span>Sistema de Gestão · Banco de Dados Relacional</span>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- CARD 1 -->
+            <div class="card">
+                <h3>Cadastro <span>Cliente & Veículo</span></h3>
+
+                <label>Proprietário</label>
+                <input type="text" id="nome" placeholder="Nome Completo">
+
+                <label>Contato</label>
+                <input type="text" id="telefone" placeholder="(00) 00000-0000">
+
+                <label>Veículo</label>
+                <input type="text" id="placa" placeholder="Placa (ex: ABC1D23)" style="text-transform: uppercase;">
+                <input type="text" id="modelo" placeholder="Modelo / Marca">
+                <input type="text" id="cor" placeholder="Cor">
+
+                <label>Tipo de Vaga Requerida</label>
+                <select id="tipo_veiculo">
+                    <option value="Normal">Vaga Normal</option>
+                    <option value="Idoso">Vaga Preferencial (Idoso)</option>
+                    <option value="PCD">Vaga Preferencial (PCD)</option>
+                </select>
+
+                <button onclick="cadastrarClienteEVeiculo()">Salvar Cadastro</button>
+            </div>
+
+            <!-- CARD 2 -->
+            <div class="card">
+                <h3>Portaria <span>Controle de Fluxo</span></h3>
+
+                <label>Placa do Veículo</label>
+                <input type="text" id="placa_fluxo" placeholder="DIGITE A PLACA"
+                    style="text-transform: uppercase; font-weight: 600; letter-spacing: 1px;">
+
+                <label>Tipo de Vaga Alocada</label>
+                <select id="vaga_fluxo">
+                    <option value="Normal">Ocupar Vaga Normal</option>
+                    <option value="Preferencial">Ocupar Vaga Preferencial</option>
+                </select>
+
+                <div style="display: flex; gap: 12px; margin-top: 8px;">
+                    <button onclick="registrarEntrada()" class="btn-entrada" style="flex:1;">Entrada</button>
+                    <button onclick="registrarSaida()" class="btn-saida" style="flex:1;">Saída</button>
+                </div>
+
+                <div class="tabela-precos">
+                    <strong>Tabela de Valores:</strong> Hora R$ 10,00 · Diária R$ 60,00 (após 6h)
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3 - RELATÓRIO -->
+        <div class="card card-table">
+            <h3>Relatório em Tempo Real <span>Ao Vivo</span></h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Placa</th>
+                        <th>Veículo</th>
+                        <th>Tipo Vaga</th>
+                        <th>Entrada</th>
+                        <th>Saída</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela_relatorio">
+                    <!-- Dados injetados via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Toast para notificações -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // BANCO DE DADOS EM MEMÓRIA
+        let clientes = [];
+        let veiculos = [];
+        let movimentacoes = [];
+        let historico = [];
+
+        // FUNÇÕES AUXILIARES
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            setTimeout(() => toast.classList.add('show'), 50);
+            setTimeout(() => toast.classList.remove('show'), 3200);
+        }
+
+        function formatCurrency(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function calcularValor(entrada, saida) {
+            if (!entrada || !saida) return null;
+            const entradaDate = new Date(entrada);
+            const saidaDate = new Date(saida);
+            const diffMs = saidaDate - entradaDate;
+            const diffHoras = diffMs / (1000 * 60 * 60);
+
+            if (diffHoras <= 0) return 0;
+
+            if (diffHoras >= 6) {
+                return 60; // Diária
+            } else {
+                const horasInteiras = Math.ceil(diffHoras);
+                return horasInteiras * 10;
+            }
+        }
+
+        // CADASTRAR CLIENTE + VEÍCULO
+        function cadastrarClienteEVeiculo() {
+            const nome = document.getElementById('nome').value.trim();
+            const telefone = document.getElementById('telefone').value.trim();
+            const placa = document.getElementById('placa').value.trim().toUpperCase();
+            const modelo = document.getElementById('modelo').value.trim();
+            const cor = document.getElementById('cor').value.trim();
+            const tipoVaga = document.getElementById('tipo_veiculo').value;
+
+            if (!nome || !telefone || !placa || !modelo || !cor) {
+                showToast('Preencha todos os campos do cadastro!', 'error');
+                return;
+            }
+
+            const veiculoExistente = veiculos.find(v => v.placa === placa);
+            if (veiculoExistente) {
+                showToast(`Placa ${placa} já cadastrada!`, 'error');
+                return;
+            }
+
+            const cliente = { id: clientes.length + 1, nome, telefone, data_cadastro: new Date().toISOString() };
+            clientes.push(cliente);
+
+            const veiculo = {
+                id: veiculos.length + 1,
+                placa,
+                modelo,
+                cor,
+                tipo_vaga: tipoVaga,
+                cliente_id: cliente.id
+            };
+            veiculos.push(veiculo);
+
+            document.getElementById('nome').value = '';
+            document.getElementById('telefone').value = '';
+            document.getElementById('placa').value = '';
+            document.getElementById('modelo').value = '';
+            document.getElementById('cor').value = '';
+
+            showToast(`${modelo} (${placa}) cadastrado com sucesso!`, 'success');
+            atualizarRelatorio();
+        }
+
+        // REGISTRAR ENTRADA
+        function registrarEntrada() {
+            const placa = document.getElementById('placa_fluxo').value.trim().toUpperCase();
+            const tipoVagaSelecionada = document.getElementById('vaga_fluxo').value;
+
+            if (!placa) {
+                showToast('Digite a placa do veículo!', 'error');
+                return;
+            }
+
+            const veiculo = veiculos.find(v => v.placa === placa);
+            if (!veiculo) {
+                showToast(`Placa ${placa} não cadastrada. Cadastre primeiro!`, 'error');
+                return;
+            }
+
+            const movimentacaoAtiva = movimentacoes.find(m => m.placa === placa && !m.saida);
+            if (movimentacaoAtiva) {
+                showToast(`Veículo ${placa} já está estacionado!`, 'error');
+                return;
+            }
+
+            const vagasOcupadas = movimentacoes.filter(m => !m.saida);
+            const vagasNormais = vagasOcupadas.filter(m => m.tipo_vaga === 'Normal');
+            const vagasPreferenciais = vagasOcupadas.filter(m => m.tipo_vaga === 'Preferencial');
+
+            let tipoVagaAlocada = 'Normal';
+            if (veiculo.tipo_vaga === 'Idoso' || veiculo.tipo_vaga === 'PCD') {
+                tipoVagaAlocada = 'Preferencial';
+            }
+
+            if (tipoVagaSelecionada === 'Preferencial' && veiculo.tipo_vaga === 'Normal') {
+                showToast('Veículo não possui credencial para vaga preferencial!', 'error');
+                return;
+            }
+
+            if (tipoVagaAlocada === 'Preferencial' && vagasPreferenciais.length >= 3) {
+                showToast('Vagas preferenciais esgotadas!', 'error');
+                return;
+            }
+
+            if (tipoVagaAlocada === 'Normal' && vagasNormais.length >= 7) {
+                showToast('Vagas normais esgotadas!', 'error');
+                return;
+            }
+
+            const movimentacao = {
+                id: movimentacoes.length + 1,
+                placa,
+                veiculo_info: `${veiculo.modelo} ${veiculo.cor}`,
+                tipo_vaga: tipoVagaAlocada,
+                entrada: new Date().toISOString(),
+                saida: null,
+                valor: null,
+                cliente_id: veiculo.cliente_id
+            };
+            movimentacoes.push(movimentacao);
+
+            document.getElementById('placa_fluxo').value = '';
+            showToast(`Entrada confirmada: ${placa} (${tipoVagaAlocada})`, 'success');
+            atualizarRelatorio();
+        }
+
+        // REGISTRAR SAÍDA
+        function registrarSaida() {
+            const placa = document.getElementById('placa_fluxo').value.trim().toUpperCase();
+
+            if (!placa) {
+                showToast('Digite a placa do veículo!', 'error');
+                return;
+            }
+
+            const movimentacao = movimentacoes.find(m => m.placa === placa && !m.saida);
+            if (!movimentacao) {
+                showToast(`Veículo ${placa} não localizado no pátio!`, 'error');
+                return;
+            }
+
+            const saidaDate = new Date();
+            movimentacao.saida = saidaDate.toISOString();
+
+            const valor = calcularValor(movimentacao.entrada, movimentacao.saida);
+            movimentacao.valor = valor;
+
+            historico.push({ ...movimentacao });
+
+            document.getElementById('placa_fluxo').value = '';
+            showToast(`Saida confirmada: ${placa} - Total: ${formatCurrency(valor || 0)}`, 'success');
+            atualizarRelatorio();
+        }
+
+        // ATUALIZAR RELATÓRIO
+        function atualizarRelatorio() {
+            const tbody = document.getElementById('tabela_relatorio');
+            tbody.innerHTML = '';
+
+            const todasMovs = [...movimentacoes].sort((a, b) => new Date(b.entrada) - new Date(a.entrada)).slice(0, 20);
+
+            if (todasMovs.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align:center; color: #a855f7; padding: 28px;">
+                            Nenhum registro de movimentação até o momento.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            todasMovs.forEach(mov => {
+                const tr = document.createElement('tr');
+
+                const entradaStr = new Date(mov.entrada).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                const saidaStr = mov.saida ? new Date(mov.saida).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '--:--';
+                const valorStr = mov.valor !== null ? formatCurrency(mov.valor) : 'Em aberto';
+
+                tr.innerHTML = `
+                    <td><strong>${mov.placa}</strong></td>
+                    <td>${mov.veiculo_info || '--'}</td>
+                    <td><span class="badge-vaga">${mov.tipo_vaga}</span></td>
+                    <td>${entradaStr}</td>
+                    <td>${saidaStr}</td>
+                    <td class="${mov.saida ? 'valor-pago' : 'valor-ativo'}">${valorStr}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // INICIALIZAR DADOS DE EXEMPLO
+        function inicializarDadosExemplo() {
+            clientes = [
+                { id: 1, nome: 'João Silva', telefone: '(11) 99999-1111', data_cadastro: new Date().toISOString() },
+                { id: 2, nome: 'Maria Santos', telefone: '(11) 99999-2222', data_cadastro: new Date().toISOString() },
+                { id: 3, nome: 'Carlos Oliveira', telefone: '(11) 99999-3333', data_cadastro: new Date().toISOString() }
+            ];
+
+            veiculos = [
+                { id: 1, placa: 'ABC-1234', modelo: 'Honda Civic', cor: 'Preto', tipo_vaga: 'Normal', cliente_id: 1 },
+                { id: 2, placa: 'XYZ-5678', modelo: 'Toyota Corolla', cor: 'Branco', tipo_vaga: 'Idoso', cliente_id: 2 },
+                { id: 3, placa: 'DEF-9012', modelo: 'Volkswagen Golf', cor: 'Azul', tipo_vaga: 'PCD', cliente_id: 3 }
+            ];
+
+            const agora = new Date();
+            const umaHoraAtras = new Date(agora.getTime() - 60 * 60 * 1000);
+            const duasHorasAtras = new Date(agora.getTime() - 2 * 60 * 60 * 1000);
+
+            movimentacoes = [
+                { id: 1, placa: 'ABC-1234', veiculo_info: 'Honda Civic Preto', tipo_vaga: 'Normal', entrada: duasHorasAtras.toISOString(), saida: null, valor: null, cliente_id: 1 },
+                { id: 2, placa: 'XYZ-5678', veiculo_info: 'Toyota Corolla Branco', tipo_vaga: 'Preferencial', entrada: umaHoraAtras.toISOString(), saida: null, valor: null, cliente_id: 2 },
+                { id: 3, placa: 'DEF-9012', veiculo_info: 'Volkswagen Golf Azul', tipo_vaga: 'Preferencial', entrada: umaHoraAtras.toISOString(), saida: null, valor: null, cliente_id: 3 }
+            ];
+
+            atualizarRelatorio();
+            showToast('Sistema carregado com sucesso!', 'info');
+        }
+
+        window.cadastrarClienteEVeiculo = cadastrarClienteEVeiculo;
+        window.registrarEntrada = registrarEntrada;
+        window.registrarSaida = registrarSaida;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            inicializarDadosExemplo();
+
+            document.getElementById('placa_fluxo').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') registrarEntrada();
+            });
+        });
+    </script>
+</body>
+
+</html>
